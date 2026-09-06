@@ -52,6 +52,7 @@ list(APPEND ep
     libbs2b
     openssl
     libssh
+    libsmb2
     libsrt
     libarchive
     highway
