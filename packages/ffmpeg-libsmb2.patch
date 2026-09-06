@@ -18,7 +18,7 @@ index 5fecdfd898..62ef85c116 100755
      libsmbclient
      libsnappy
      libsoxr
-@@ -4159,6 +4161,8 @@ librtmps_protocol_deps="librtmp"
+@@ -4159,6 +4161,7 @@ librtmps_protocol_deps="librtmp"
  librtmpt_protocol_deps="librtmp"
  librtmpte_protocol_deps="librtmp"
  libsmbclient_protocol_deps="libsmbclient gplv3"
@@ -52,7 +52,7 @@ new file mode 100644
 index 0000000000..a23471e434
 --- /dev/null
 +++ b/libavformat/libsmb2.c
-@@ -0,0 +1,440 @@
+@@ -0,0 +1,442 @@
 +/*
 + * Copyright © 2026 & onwards, Alessandro Di Ronza <ales.drnz@gmail.com>.
 + * All rights reserved.
@@ -81,6 +81,7 @@ index 0000000000..a23471e434
 + * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 + */
 +
++#include <errno.h>
 +#include <stdint.h>
 +#include <stddef.h>
 +#include <time.h>
@@ -90,6 +91,7 @@ index 0000000000..a23471e434
 +#include <smb2/smb2.h>
 +#include <smb2/libsmb2.h>
 +#include "libavutil/avstring.h"
++#include "libavutil/error.h"
 +#include "libavutil/mem.h"
 +#include "libavutil/opt.h"
 +#include "url.h"
@@ -107,9 +109,9 @@ index 0000000000..a23471e434
 +/**
 + * Percent-decode a string in-place (e.g. %26 -> &).
 + */
-+static void percent_decode(char *s)
++static void percent_decode(const char *s)
 +{
-+    char *r = s, *w = s;
++    char *r = (char *)s, *w = (char *)s;
 +    while (*r) {
 +        if (*r == '%' && r[1] && r[2]) {
 +            char hex[3] = { r[1], r[2], 0 };

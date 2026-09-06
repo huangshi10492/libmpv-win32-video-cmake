@@ -29,8 +29,11 @@ fi
 
 sed -i 's/^int random(void);$/long random(void);/' "$compat_h"
 sed -i '/^int gethostname(char\* name, size_t len);$/d' "$compat_h"
+if ! grep -q '^#if !defined(__MINGW32__)$' "$compat_h"; then
+    sed -i 's/^typedef SSIZE_T ssize_t;$/#if !defined(__MINGW32__)\ntypedef SSIZE_T ssize_t;\n#endif/' "$compat_h"
+fi
 
-if ! grep -q '^#include <stdlib.h>$' "$compat_c"; then
+if [[ "$(head -n 1 "$compat_c")" != '#include <stdlib.h>' ]]; then
     sed -i '1i #include <stdlib.h>' "$compat_c"
 fi
 sed -i 's/return smb2_random();/return rand();/' "$compat_c"
