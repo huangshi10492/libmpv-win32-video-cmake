@@ -7,6 +7,7 @@ ExternalProject_Add(ffmpeg
         lcms2
         openssl
         libssh
+        libsmb2
         libsrt
         libass
         libmodplug
@@ -91,6 +92,7 @@ ExternalProject_Add(ffmpeg
 
         --enable-openssl
         --enable-libssh
+        --enable-libsmb2
 
         --enable-libdav1d
 
@@ -286,6 +288,7 @@ ExternalProject_Add(ffmpeg
         --enable-protocol=tcp
         --enable-protocol=tls
         --enable-protocol=srt
+        --enable-protocol=libsmb2
         --enable-protocol=udp
 
         --enable-encoder=mjpeg
